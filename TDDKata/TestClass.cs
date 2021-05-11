@@ -25,11 +25,26 @@ namespace TDDKata
             Assert.That(value, Is.EqualTo(0), "Wrong result. Should be zero.");
         }
         [Test]
-        public void NegativeValueTest()
+        public void WrongArgumentTest()
         {
             StringCalc calc = new StringCalc();
             int value = calc.Sum("abc");
             Assert.That(value, Is.EqualTo(expected: typeof(ArgumentException)), "Wrong argument.");
         }
+        [Test]
+        public void NegativeValueTest()
+        {
+            StringCalc calc = new StringCalc();
+            int value = calc.Sum("-1,0");
+            Assert.That(value, Is.LessThan(0), "Not negative value.");
+        }
+        [Test]
+        public void MoreThanTwoNumbersTest()
+        {
+            StringCalc calc = new StringCalc();
+            int value = calc.Sum("0,0,0");
+            Assert.That(value, Is.EqualTo(expected: typeof(IndexOutOfRangeException)), "More than two numbers.");
+        }
+
     }
 }
