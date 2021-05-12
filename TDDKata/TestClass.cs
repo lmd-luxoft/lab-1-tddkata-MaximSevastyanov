@@ -11,13 +11,6 @@ namespace TDDKata
     public class TestClass
     {
         [Test]
-        public void SimpleTest()
-        {
-            StringCalc calc = new StringCalc();
-            int value = calc.Sum("2,2");
-            Assert.That(value, Is.EqualTo(4), "Wrong actual value");
-        }
-        [Test]
         public void EmptyValueTest()
         {
             StringCalc calc = new StringCalc();
@@ -28,8 +21,13 @@ namespace TDDKata
         public void WrongArgumentTest()
         {
             StringCalc calc = new StringCalc();
-            int value = calc.Sum("abc");
-            Assert.That(value, Is.EqualTo(expected: typeof(ArgumentException)), "Wrong argument.");
+            Assert.Throws<ArgumentException>(() => calc.Sum("abc"));
+        }
+        [Test]
+        public void MoreThanTwoNumbersTest()
+        {
+            StringCalc calc = new StringCalc();
+            Assert.Throws<IndexOutOfRangeException>(() => calc.Sum("0,0,0"));
         }
         [Test]
         public void NegativeValueTest()
@@ -39,12 +37,11 @@ namespace TDDKata
             Assert.That(value, Is.LessThan(0), "Not negative value.");
         }
         [Test]
-        public void MoreThanTwoNumbersTest()
+        public void ActualSumTest()
         {
             StringCalc calc = new StringCalc();
-            int value = calc.Sum("0,0,0");
-            Assert.That(value, Is.EqualTo(expected: typeof(IndexOutOfRangeException)), "More than two numbers.");
+            int value = calc.Sum("2,2");
+            Assert.That(value, Is.EqualTo(4), "Wrong actual value");
         }
-
     }
 }
